@@ -66,6 +66,7 @@ static void delete_list(struct node **head){
 //TODO make a function to mergesort. WITHOUT looking at any solutions 
 
 //TODO make a function to quicksort WITHOUT looking at any solutions 
+
 //This program intakes args integers and makes them elements in a linked list  
 int main (int argc, char *args[]){
 	struct node *head;
