@@ -5,7 +5,7 @@
 struct Node {
     char *title;
     int port;
-    //IP 
+    //IP
     char *sender;
     char *recvr;
     struct Node *first;
@@ -20,36 +20,40 @@ struct QueueList {
 * This function creates an empty queue
 */
 int create_queue(struct QueueList *Queue, struct Node input) {
-        // if (! (*Queue)->start) ){
+   // if (! (*Queue)->start) ){
         //struct Node temp;
         //temp = (struct Node *)malloc(sizeof(struct Node));
-        //(*Queue)->start = temp; 
+        //(*Queue)->start = temp;
 
 }
 
 
 
 
-struct Node make_El(char *title, int port, char *sender, char *recvr ){
-    struct Node *temp;
+void make_El( struct Node *temp, struct Node input ){
+    //No need to re-create an already created Node
+    if (temp != NULL){
+            return;
+    }
     temp = (struct Node *)malloc(sizeof(struct Node));
     if ( ! (*temp) ){
         printf("ERROR : Element Memory Leak");
     }
+
     //Now copy the information into the newly made node
-    if (title){
-        //temp->title = 
+    if (input.title){
+        temp->title = input.title;
     }
-    if (port){
+    if (input.port){
         temp->port = input.port;
     }
-    if (sender){
-        //temp->sender = strdup(input.sender);
+    if (input.sender){
+        temp->sender = strdup(input.sender);
     }
-    if (recvr){
-        //temp->recvr = strdup(input.recvr);
+    if (input.recvr){
+        temp->recvr = strdup(input.recvr);
     }
-    return temp;
+    return;
 }
 
 /*
@@ -81,8 +85,8 @@ int add_queue(struct Node **head, struct Node input){
         curr->recvr = input.recvr;
     }
 
-    curr->next = 
-    curr->prex = 
+    curr->next =
+    curr->prex =
     return 1;
 }
 */
@@ -91,9 +95,9 @@ int add_queue(struct Node **head, struct Node input){
 * (Over TCP/IP) It holds 2 queues that takes information about the
 * networking transactions and processes them as necessary
 */
-
+45
 void main(){
-    //Note for testing, the point is to make a structure and add it to the 
+    //Note for testing, the point is to make a structure and add it to the
     //Queue, which paramters are filled out
     //Then
     //1)Pass the data flawlessly to the queue
@@ -101,18 +105,27 @@ void main(){
     //3)Test Queueue operations
     //4)Set up sockets for data transfer
     //5)Start trading information test cases
-    //6)Migrate that to python binding the C and python libraries 
-    //7)Make GUI in python 
+    //6)Migrate that to python binding the C and python libraries
+    //7)Make GUI in python
     //Starting with 2 queues, one for client and one for server
-    struct QueueList client;
+    struct QueueList clsrv;
 
     //Some test data
     char temp[5] = "192";
-    int port = 150;
     struct Node inputNode;
     inputNode.sender = strdup(temp);
-    
-  
-    
+    printf("%s\n", inputNode.sender);
+
+    struct Node temper;
+    make_El( &temper, inputNode);
+    printf("%s", temper.sender);
+  //  create_queue(  &(clsrv.start) , inputNode);
+   //Now clsrv[0] should had a queue head and be initialized to whatever
+    //was in inputNode
+   // printf("%s\n", clsrv.start->sender);
+    //Ok so we are able to take parameters TODO test other parameters
+    //mAKE QUEUE OPERATIONS
+
+
 }
 
