@@ -104,7 +104,7 @@ void main(){
     //But this is how the Queue should be called for this project
     struct Node *this = client.start;
     printf("Memory address of the client %p\n", this);
-    printf("Debug me with GDB\n");
+    printf("Hello world\n");
 }
 
     //Note for testing, the point is to make a structure and add it to the 
