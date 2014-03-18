@@ -2,87 +2,9 @@
 #include<sys/socket.h>
 #include<stdlib.h>
 #include<string.h>
-struct Node *make_El(char *, int , char *, char *);
-struct Node {
-    char *title;
-    int port;
-    //IP 
-    char *sender;
-    char *recvr;
-    struct Node *next;
-    struct Node *prev;
-};
-struct QueueList {
-    struct Node *start;
-    struct Node *end;
-    int length;
-};
-/*
- * This function creates an empty queue
- **/
-int create_queue(struct QueueList *Queue, char *title, int port, char *sender, char *recvr) {
-		if (!Queue->start){
-			struct Node *temp; 
-			temp = make_El(title,port, sender, recvr);
-			if (!temp){
-				printf("New Node not created");
-				return 1;
-			}
-			Queue->start = temp;
-			return 1;
-		}
-	
-		struct Node *temp; 
-		temp= make_El(title,port, sender, recvr);
-		if (!temp){
-				printf("New Queue Not Added");
-				return 1;
-		}
-		struct Node *end = Queue->end;
-		
-		end->next = temp;
-        temp->prev = end;
-        end = temp;
-        return 1;
-}
-
-int EnQueue(struct QueueList *Queue) {
-		if (!Queue->start){
-			printf("Queue is empty");
-			return 1;
-		}
-		struct Node *start = Queue->start;
-		struct Node *temp = start;
-		start = start->next;
-		free(temp);
-		if (temp){
-				printf("EnQueue failed");
-				return 0;
-		}
-        return 1;
-}
-
-struct Node *make_El(char *title, int port, char *sender, char *recvr ){
-    struct Node *temp;
-    temp = (struct Node *)malloc(sizeof(struct Node));
-    if ( ! (temp) ){
-        printf("ERROR : Element Memory Leak");
-    }
-    //Now copy the information into the newly made node
-    if (title){
-        //temp->title = 
-    }
-    if (port){
-        temp->port = port;
-    }
-    if (sender){
-        //temp->sender = strdup(input.sender);
-    }
-    if (recvr){
-        //temp->recvr = strdup(input.recvr);
-    }
-    return temp;
-}
+#include <netinet/in.h>
+#include<time.h>
+#include "webchat.h"
 /*
 * This program makes both a server and a client at the same time
 * (Over TCP/IP) It holds 2 queues that takes information about the
@@ -90,23 +12,123 @@ struct Node *make_El(char *title, int port, char *sender, char *recvr ){
 */
 
 void main(){
-
-    struct QueueList client;
-
-    //Some test data
+    struct QueueList *client =  (struct QueueList*)malloc(sizeof(struct QueueList));
     char temp[5] = "192";
-    int port = 150;
-    struct Node inputNode;
-    inputNode.sender = strdup(temp);
-    int valid = create_queue(&client, NULL, port, temp, NULL);
+    int sockfd;
+    int port = 233;
+    int listenfd = 0; //This will be the socket 
+    int connfd = 0;
+    struct sockaddr_in serv_addr;
+    
+    /* Create a Socket point */
+    listenfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0 ){
+    	printf("Error opening socket");
+    }
+    
+	serv_addr.sin_family = AF_INET;
+	serv_addr.sin_addr.s_addr = INADDR_ANY;
+	serv_addr.sin_port = htons(port);
+        
+}    /*int listenfd = 0;
+    int connfd = 0;
+    struct sockadd_in serv_addr;
+    char sendBuff[1025];
+    int numrv;
+   	int valid ;
+    listenfd = socket(AF_INET, SOCK_STREAM, 0);
+    printf("Socket Retrieve Success \n");*/
+
+   	/*valid = create_queue(client, NULL, 56, temp, NULL);
+   	valid = create_queue(client, NULL, 4, temp, NULL);
+   	valid = create_queue(client, NULL, 8, temp, NULL);
+   	EnQueue(client);
+   	printf("Queue Length = %i \n", client->length);
+    EnQueue(client);
+    EnQueue(client);*/
+    
+    
+    /*
+ Client Side
+-Create a socket with the socket() system call
+-Connect the socket to the address of the server using the connect() system call
+-Send and receive data. There are a number of ways to do this, but the simplest is to use the read() and write() system calls.
+-The steps involved in establishing a socket on the server side are as follows:
+
+
+
+
+
+Server side 
+-Create a socket with the socket() system call
+-Bind the socket to an address using the bind() system call. For a server socket on the Internet, an address consists of a port number on the host machine.
+-Listen for connections with the listen() system call
+-Accept a connection with the accept() system call. This call typically blocks until a client connects with the server.
+
+Send and receive data
+
+   
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*printf("Print 2nd time \n");
+    EnQueue(client);
+    
+    PrintQueue(client);
+    printf("Print 3nd time \n");
+    EnQueue(client);
+     
+    PrintQueue(client);
+    printf("Print 4nd time \n");*/
+
+
     //Able to get a valid point for start Node, but not display the port number
     //Possibly, it is just a matter of fixing referencing modes
     //But this is how the Queue should be called for this project
-    struct Node *this = client.start;
-    printf("Memory address of the client %p\n", this);
-    printf("Debug me with GDB\n");
-}
-
     //Note for testing, the point is to make a structure and add it to the 
     //Queue, which paramters are filled out
     //Then
@@ -118,38 +140,5 @@ void main(){
     //6)Migrate that to python binding the C and python libraries 
     //7)Make GUI in python 
     //Starting with 2 queues, one for client and one for server
-/*
-* This function makes a new element to be added to the queue
-*/
-/*
-int add_queue(struct Node **head, struct Node input){
-    if (!(*head)) {
-        int temp = create_queue(head, input);
-            return 1;
-        }
-    }
-    struct Node *curr;
-    curr = head);
 
-    int temp = create_queue(&curr, input);
-
-
-    if (input.title) {
-        curr->title = input.title;
-    }
-    if (input.port) {
-        curr->port = input.port;
-    }
-    if (input.sender) {
-        curr->sender = input.sender;
-    }
-    if (input.recvr) {
-        curr->recvr = input.recvr;
-    }
-
-    curr->next = 
-    curr->prex = 
-    return 1;
-}
-*/
 

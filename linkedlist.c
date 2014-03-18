@@ -1,3 +1,9 @@
+/* 
+ * Author : Luke Morrison
+ * Note : This is purely an example program for my own reference (no pun intended)
+ *
+ **/
+
 #include<stdio.h>
 #include<stdlib.h>
 //Holding function for our linked list 
@@ -12,7 +18,10 @@ struct node *head;
 //This function returns a plain node
 struct node *makenode(int val){
 	struct node *temp = (struct node*)malloc(sizeof(struct node)); 
-	temp->a =val;
+	if( !temp ) {
+            printf("Error : Memory leak, node not created");
+        }
+    temp->a =val;
 	return temp;
 }
 
