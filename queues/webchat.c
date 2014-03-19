@@ -4,7 +4,9 @@
 #include<string.h>
 #include <netinet/in.h>
 #include<time.h>
+#include<sys/types.h>
 #include "webchat.h"
+/*The following mi
 /*
 * This program makes both a server and a client at the same time
 * (Over TCP/IP) It holds 2 queues that takes information about the
@@ -13,41 +15,49 @@
 
 void main(){
     struct QueueList *client =  (struct QueueList*)malloc(sizeof(struct QueueList));
+    char Buffer[1025];
     char temp[5] = "192";
     int sockfd;
     int port = 233;
     int listenfd = 0; //This will be the socket 
     int connfd = 0;
+    time_t ticks;
     struct sockaddr_in serv_addr;
+    
+    /* Just clear everything to zero for stability purposes */
+    memset(&serv_addr, '0', sizeof(serv_addr));
+    memset(Buffer, '0', sizeof(Buffer)); 
     
     /* Create a Socket point */
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0 ){
     	printf("Error opening socket");
     }
-    
+    /* Set the serv_addr to appropriate parameters*/
 	serv_addr.sin_family = AF_INET;
-	serv_addr.sin_addr.s_addr = INADDR_ANY;
+	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	serv_addr.sin_port = htons(port);
-        
-}    /*int listenfd = 0;
-    int connfd = 0;
-    struct sockadd_in serv_addr;
-    char sendBuff[1025];
-    int numrv;
-   	int valid ;
-    listenfd = socket(AF_INET, SOCK_STREAM, 0);
-    printf("Socket Retrieve Success \n");*/
+	
+	/*Now bind it to the port */
+	
+    bind(listenfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)); 
+	listen(listenfd, 10);
+    /* Infinite loop to accept any invcoming traffic*/	
+	while(1)
+    {
+        connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
 
-   	/*valid = create_queue(client, NULL, 56, temp, NULL);
-   	valid = create_queue(client, NULL, 4, temp, NULL);
-   	valid = create_queue(client, NULL, 8, temp, NULL);
-   	EnQueue(client);
-   	printf("Queue Length = %i \n", client->length);
-    EnQueue(client);
-    EnQueue(client);*/
-    
-    
+        ticks = time(NULL);
+        snprintf(Buffer, sizeof(Buffer), "%.24s\r\n", ctime(&ticks));
+        write(connfd, Buffer, strlen(Buffer)); 
+
+        close(connfd);
+        sleep(1);
+     }
+	
+	
+}        
+
     /*
  Client Side
 -Create a socket with the socket() system call
@@ -66,6 +76,19 @@ Server side
 -Accept a connection with the accept() system call. This call typically blocks until a client connects with the server.
 
 Send and receive data
+
+
+Here is an excerb from the man page of socket listen function
+           1.  A socket is created with socket(2).
+
+           2.  The  socket  is  bound  to  a local address using bind(2), so that
+               other sockets may be connect(2)ed to it.
+
+           3.  A willingness to accept incoming connections and a queue limit for
+               incoming connections are specified with listen().
+
+           4.  Connections are accepted with accept(2).
+
 
    
     
