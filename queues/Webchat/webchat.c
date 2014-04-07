@@ -7,7 +7,7 @@
 #include<sys/types.h>
 #include "webchat.h"
 
-//take these out they are not your image of the file 
+//take these out they are not your image of the file
 #define SERVER_PORT 1501
 #define MAX_MESSAGE_SIZE 100
 
@@ -17,52 +17,52 @@ void main(int argc, char *argv[]){
     char Buffer[1025];
     int sockfd;
     int port = 233; //
-    int listenfd = 0; //This will be the socket 
+    int listenfd = 0; //This will be the socket
     int connfd = 0;
     time_t ticks;
     struct sockaddr_in local_addr, serv_addr;
     struct hostent *h; //what does this do?
- 
+
     /* Just clear everything to zero for stability purposes */
     memset(&serv_addr, '0', sizeof(serv_addr));
-    memset(Buffer, '0', sizeof(Buffer)); 
-    
+    memset(Buffer, '0', sizeof(Buffer));
+
     /* Create a Socket point */
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0 ){
     	printf("Error opening socket");
     }
-    
-    
+
+
     /* bind server port */
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	serv_addr.sin_port = htons(SERVER_PORT);
-	
+
 	/*Now bind it to the port */
-	
+
     if ( ! bind(listenfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) ){
     	perror("Cannot bind port");
-    } 
-    
-    
+    }
+
+
 	listen(listenfd, 10);
-    /* Infinite loop to accept any invcoming traffic*/	
+    /* Infinite loop to accept any invcoming traffic*/
 	while(1)
     {
     	printf("%s: waiting for data on port TCP %u\n",argv[0],SERVER_PORT);
-        connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
+        connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
 
         ticks = time(NULL);
         snprintf(Buffer, sizeof(Buffer), "%.24s\r\n", ctime(&ticks));
-        write(connfd, Buffer, strlen(Buffer)); 
+        write(connfd, Buffer, strlen(Buffer));
 
         close(connfd);
         sleep(1);
      }
-	
-	
-}        
+
+
+}
 
     /*
  Client Side
@@ -75,7 +75,7 @@ void main(int argc, char *argv[]){
 
 
 
-Server side 
+Server side
 -Create a socket with the socket() system call
 -Bind the socket to an address using the bind() system call. For a server socket on the Internet, an address consists of a port number on the host machine.
 -Listen for connections with the listen() system call
@@ -96,59 +96,13 @@ Here is an excerb from the man page of socket listen function
            4.  Connections are accepted with accept(2).
 
 
-   
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /*printf("Print 2nd time \n");
     EnQueue(client);
-    
+
     PrintQueue(client);
     printf("Print 3nd time \n");
     EnQueue(client);
-     
+
     PrintQueue(client);
     printf("Print 4nd time \n");*/
 
@@ -156,7 +110,7 @@ Here is an excerb from the man page of socket listen function
     //Able to get a valid point for start Node, but not display the port number
     //Possibly, it is just a matter of fixing referencing modes
     //But this is how the Queue should be called for this project
-    //Note for testing, the point is to make a structure and add it to the 
+    //Note for testing, the point is to make a structure and add it to the
     //Queue, which paramters are filled out
     //Then
     //1)Pass the data flawlessly to the queue
@@ -164,8 +118,8 @@ Here is an excerb from the man page of socket listen function
     //3)Test Queueue operations
     //4)Set up sockets for data transfer
     //5)Start trading information test cases
-    //6)Migrate that to python binding the C and python libraries 
-    //7)Make GUI in python 
+    //6)Migrate that to python binding the C and python libraries
+    //7)Make GUI in python
     //Starting with 2 queues, one for client and one for server
 
 

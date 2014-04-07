@@ -50,7 +50,6 @@ void main(int argc, char *argv[]){
     /* Infinite loop to accept any invcoming traffic*/	
 	while(1)
     {
-    	printf("%s: waiting for data on port TCP %u\n",argv[0],SERVER_PORT);
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
 
         ticks = time(NULL);

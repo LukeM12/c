@@ -1,0 +1,19 @@
+16:13:13 **** Incremental Build of configuration Debug for project Webchat ****
+make all 
+Building file: ../Model.c
+Invoking: Cross GCC Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"Model.d" -MT"Model.d" -o "Model.o" "../Model.c"
+../Model.c: In function ‘EnQueue’:
+../Model.c:48:16: warning: unused variable ‘start’ [-Wunused-variable]
+   struct Node *start = Queue->start;
+                ^
+Finished building: ../Model.c
+ 
+Building target: Webchat
+Invoking: Cross GCC Linker
+gcc  -o "Webchat"  ./Model.o ./webchat.o   
+Finished building target: Webchat
+ 
+
+16:13:13 Build Finished (took 111ms)
+

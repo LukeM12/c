@@ -1,0 +1,16 @@
+!SESSION 2014-04-03 15:55:25.286 -----------------------------------------------
+eclipse.buildId=debbuild
+java.version=1.7.0_51
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_CA
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.core.resources 4 77 2014-04-03 16:07:34.893
+!MESSAGE Invalid project description.
+!SUBENTRY 1 unknown 0 0 2014-04-03 16:07:34.893
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.resources 4 77 2014-04-03 16:07:34.893
+!MESSAGE /home/luke/development/data_structures/cdv/queues overlaps the workspace location: /home/luke/development/data_structures/cdv/queues
+
+!ENTRY org.eclipse.cdt.core 1 0 2014-04-03 16:08:01.789
+!MESSAGE Indexed 'Webchat' (0 sources, 0 headers) in 0.00 sec: 0 declarations; 0 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0.00%)
