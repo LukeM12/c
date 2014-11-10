@@ -56,7 +56,7 @@ typedef struct {
     miniPCB *start, *end;
 } QueueList;
 
-int index = 0;
+int index;
 int error_flag[MAX_ERROR]; 
 
 /**
