@@ -50,9 +50,14 @@
 
 /* A mini process control block that holds the state of the process */
 typedef struct {
-    int pid;
-    char *cpu_info;
+    int pid; //from input file 
+    int arrival; //from input file 
+    int cputime; //from input file 
+    int frequency; //from input file 
+    int ioduration; //from input file 
     int remaining_time;
+    char *io_info; 
+    char *cpu_info; //Delete me later on 
     struct miniPCB *next, *prev;
 } miniPCB; 
 
@@ -68,7 +73,7 @@ int error_flag[MAX_ERROR];
  * @param: int pid, char * Cpu model #
  * return an instance of the process block
  */
-miniPCB *createminiProcess(int, char *);
+miniPCB *createminiProcess(int, int, int, int, int);
 int testcreateminiProcess(int, char *);
 /**
  * Description:Terminate an existing process

@@ -1,7 +1,7 @@
 #include "part2.h"
 
 int testcreateminiProcess(int pid, char *type){
-    miniPCB *pcbObject ;
+    /*miniPCB *pcbObject ;
 
     //Create a mini process and check its fields
     pcbObject= createminiProcess(2, type);
@@ -32,7 +32,7 @@ int testcreateminiProcess(int pid, char *type){
     }
     //Create another mini process and check its fields
     free(pcbObject);
-    return ;
+    */return ;
 }
 
 int testisReady(miniPCB pcb){

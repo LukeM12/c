@@ -1,12 +1,54 @@
+/*
+ * Author : Luke Morrison
+ * Contact : luc785@hotmail.com
+ * Date Created : Nov 8th 2014 
+ * Last updated : 
+ * Description - This QueueOps.c handles all of the queue operations 
+*/
 #include "part2.h"
-int createQueue(QueueList **head, miniPCB input) {
-    return 1;
+
+/*         Memory Creation         */
+/**
+ * Description: Create a new process 
+ * @param: int pid , The process ID 
+ * @param: int arrival, the time at which the process arrives 
+ * @param: int cputime, the how long the process can go on for 
+ * @param: int frequency, the frequency of this process
+ * @param: int ioduration, the duration of IO that it needs
+ * return an instance of the process block
+ */
+miniPCB *createminiProcess(int pid, int arrival, int cputime, int frequency, int ioduration){
+    miniPCB *pcb ;
+    pcb = (miniPCB*)malloc(sizeof(miniPCB));
+    if (pcb == NULL){
+        error_flag[index]= ERROR_PCBCREATION;
+        index++;
+        //return NULL;
+    }
+    pcb->pid = pid;
+    pcb->arrival = arrival;
+    pcb->cputime = cputime;
+    pcb->frequency = frequency;
+    pcb->ioduration = ioduration;
+    pcb->next = NULL;
+    return pcb;
 }
 
-void insert(miniPCB **front, miniPCB **rear, int value, char *cpu_info)
+/**
+ * Description: Create a new process 
+ * @param: miniPCB** front - the front of the queue
+ * @param: miniPCB** read - the rear of the queue
+ * @param: int pid , The process ID 
+ * @param: int arrival, the time at which the process arrives 
+ * @param: int cputime, the how long the process can go on for 
+ * @param: int frequency, the frequency of this process
+ * @param: int ioduration, the duration of IO that it needs
+ * return by reference an updated queue
+ */
+void insert(miniPCB **front, miniPCB **rear, int pid, int arrival, int cputime, int frequency, int ioduration)
 {
    miniPCB *temp;
-   temp=createminiProcess(value, cpu_info);
+   temp=createminiProcess(pid, arrival, cputime, frequency, ioduration);
    if(temp==NULL) {
       printf("No Memory available Error\n");
       exit(0);
@@ -22,8 +64,12 @@ void insert(miniPCB **front, miniPCB **rear, int value, char *cpu_info)
       *rear = temp;
    }
 }
-/* */
-  
+/**
+ * Description: Create a new process 
+ * @param: miniPCB** front - the front of the queue
+ * @param: miniPCB** read - the rear of the queue
+ * @param & return : an id to be returned by reference
+ */
 void delete(miniPCB**front, miniPCB **rear, int *id)
 {
    miniPCB *temp;
@@ -40,12 +86,24 @@ void delete(miniPCB**front, miniPCB **rear, int *id)
    free(temp);
 }
 
-
-void printQueue(QueueList *input){
-    miniPCB *yop = input->start;
+/**
+ * Description : Print the Process Queue
+ * @param: the QueueList
+ */
+void printQueue(QueueList *in){
+    miniPCB * yop = in->start ;
+    if (yop == NULL){
+        printf("\nError: Cannot print Nulled Queue");
+        return;
+    }
     while( yop != NULL){
-        printf("\nCPU=%s\tpid=%i", yop->cpu_info,yop->pid);
-        yop = yop->next;
+        printf("\npid=%i\narrival=%i\ncputime=%i\nfrequency=%i\nioduration=%i",yop->pid, yop->arrival, yop->cputime, yop->frequency, yop->ioduration);
+        if (yop->next == NULL){
+            yop = NULL;
+        }
+        else{
+            yop = yop->next;
+        }
     }
     printf("\n");
 }
