@@ -2,9 +2,11 @@
 
 int testcreateminiProcess(int pid, char *type){
     miniPCB *pcbObject ;
+
     //Create a mini process and check its fields
-    pcbObject= createminiProcess(2, "i3-DualCore");
+    pcbObject= createminiProcess(2, type);
     if (pcbObject == NULL){
+            //report errors in these lines
         error_flag[index]= ERROR_PCBCREATION;
         index++;
     }
@@ -53,11 +55,13 @@ int  testgetTime(miniPCB pcb){
     return 0.0;
 }
 int testparseInputFile(){
-    FILE * inFile = readInputFile("input.config");
-    char **a;
-    a = parseInputFile(inFile);
+  // FILE * inFile = readInputFile("input.config");
+   // char *a;
+   // a = parseInputFile(inFile);
     return NULL;
 }
+
+
 int testReadInputFile(char *fileString){
     FILE *testfile = readInputFile(fileString);
     if (testfile == NULL){

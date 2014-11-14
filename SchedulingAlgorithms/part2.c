@@ -1,62 +1,5 @@
 
 #include "part2.h"
-
-
-int main(void){
-    char *a = strdup("\nStart Running Test Suit \n-----------------\n");
-    printf("%s", a);
-
-    char *b = strdup("CPU-INFO");
-
-    //test the creation of a new process
-    miniPCB *loc = testcreateminiProcess(3, b) ;
-    //Test the creation of the file
-    int res = testReadInputFile("input.config");
-    //res = testparseInputFile();
-    QueueList *pcbQueue = (QueueList*)malloc(sizeof(QueueList));
-
-    if (pcbQueue == NULL){
-        printf("Queue is NULL");
-        return 0;
-    }
-
-
-    //pcbQueue->start = createminiProcess(2,"CPU-Info");
-   // miniPCB *in = createminiProcess(2,"CPU-Info"); 
-    //res = enQueue(pcbQueue->start, pcbQueue->end, "CPU", 47);
-    insert(&pcbQueue->start, &pcbQueue->end, 1, "intel-i3");
-     insert(&pcbQueue->start, &pcbQueue->end, 2, "intel-i5");
-      insert(&pcbQueue->start, &pcbQueue->end, 3, "intel-i7");
-      int ret;
-          printQueue(pcbQueue);
-      delete(&pcbQueue->start, &pcbQueue->end, &ret);
-    //printf("%s", pcbQueue->start->cpu_info);
-    
-    printQueue(pcbQueue);
-         insert(&pcbQueue->start, &pcbQueue->end, 4, "AMD64");
-      insert(&pcbQueue->start, &pcbQueue->end, 3, "AMD32");
-    printf("The return value was %i", ret);
-        printQueue(pcbQueue);
-    
-    
-    
-    
-    
-    //   enQueue(&pcbQueue ,createminiProcess(5,"intel i5"));
-   // if (pcbQueue.start == NULL){
-    //    printf("Start is nulled");
-    //}
-
-    //printf("%s", pcbQueue.start->cpu_info);
-    if (index == 0)
-        printf("Tests Succeeded\n\n");
-    else
-        printf("\nTest Failed! There Are %i Errors\n\n", index);
-
-    return 0;
-}
-
-
  /*         Memory Creation         */
 miniPCB *createminiProcess(int pid, char *type){
     miniPCB *pcb ;
@@ -100,10 +43,16 @@ float getTime(miniPCB pcb){
     return 0.0;
 }
 
-char **parseInputFile(FILE *inFile){
+void parseInputFile(FILE *inFile, QueueList **queuePCB){
     char *localString;
     size_t len = 0;
     int bytes_read=0;
+    char *token;
+    const char s[2] = ":";
+
+    //An array to hold the file inputs
+    char ret[5 * MAX_PROCESS][15];
+    //read the file line by line 
     while (bytes_read != -1 && localString[0] != '}') {
         bytes_read = getline(&localString, &len, inFile);
         if (read == -1){
@@ -112,7 +61,51 @@ char **parseInputFile(FILE *inFile){
             printf("\n%s\n", ERROR_FILEIO_out);
             return ERROR_FILEIO;
         }
-        printf("\nthe character is %c\n",localString[0]);
+
+        //tokenize the string to isolate input 
+        token = strtok(localString, s);
+
+        //These are the attributes of the incoming process to be parsed
+        int pid = -1;
+        int arrival = -1;
+        int cpu_time = -1;
+        int frequency = 3;
+        int ioduration = 4;
+        char *cpu_info = NULL;
+        int remaining_time = 0;
+
+        //Check the kind of string and put it in the queue 
+        while( token != NULL ) {
+            if ( (strcmp(token, "pid") == 0)){
+                token = strtok(NULL, s);
+                printf("The token is this : %s", token);
+                printf("\tAdded to 5 is this=%i\n", atoi(token)+5);
+                pid = atoi(token);
+            }
+            if ( (strcmp(token, "arrival") == 0)){
+                token = strtok(NULL, s);
+                pid = atoi(token);
+            }
+
+            else if ( (strcmp(token, "cputime") == 0)){
+                token = strtok(NULL, s);
+            }
+
+            else if ( (strcmp(token, "frequency") == 0)){
+                token = strtok(NULL, s);
+            }
+
+            else if ( (strcmp(token, "ioduration") == 0)){
+                token = strtok(NULL, s);
+            }
+
+            //printf( " %s\n", token );
+            token = strtok(NULL, s);
+
+        }
+        //INsert the chunk from the file intoi a process
+        insert(&(*queuePCB)->start, &(*queuePCB)->end, atoi(token), "i3-CPU");
+
     }
     return ;
 }
@@ -121,8 +114,12 @@ FILE *readInputFile(char *fileString){
    
     FILE *file = fopen(fileString, "r");
     if (file == NULL){
-        return NULL;
+        error_flag[index]= ERROR_FILEIO;
+        index++;
+        printf("\n%s\n", ERROR_FILEREAD_out);
+        return ERROR_FILEREAD;
     }
     else return file;
 }
+
 

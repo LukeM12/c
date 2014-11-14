@@ -44,7 +44,7 @@ void delete(miniPCB**front, miniPCB **rear, int *id)
 void printQueue(QueueList *input){
     miniPCB *yop = input->start;
     while( yop != NULL){
-        printf("\n%s", yop->cpu_info);
+        printf("\nCPU=%s\tpid=%i", yop->cpu_info,yop->pid);
         yop = yop->next;
     }
     printf("\n");

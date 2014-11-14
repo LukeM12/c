@@ -36,14 +36,18 @@
 
 
 #define ERROR_FILEIO 83
-#define ERROR_FILEIO_out "ERROR: FILE CREATION FAVL"
+#define ERROR_FILEIO_out "ERROR: FILE IO FAVL"
 
-#define ERROR_NOEXIT 84
+#define ERROR_FILEREAD 84
+#define ERROR_FILEREAD_out "ERROR: FILE READ FAIL"
 
-#define ERROR_PCBCREATION 85
+#define ERROR_NOEXIT 86
+
+#define ERROR_PCBCREATION 87
 #define ERROR_PCBCREATION_out "ERROR: PCB CREATION FAIL"
 
 #define MAX_ERROR 10
+
 /* A mini process control block that holds the state of the process */
 typedef struct {
     int pid;
@@ -117,7 +121,7 @@ int testgetTime(miniPCB);
  * return a double array of the contents 
  //That double array should be a linked list instead of a key value pair 
  */
-char **parseInputFile(FILE *);
+void parseInputFile(FILE *, QueueList**);
 int testparseInputFile();
 /**
  * Description: read the input file and return the File instance
