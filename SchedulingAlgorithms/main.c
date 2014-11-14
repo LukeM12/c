@@ -5,9 +5,9 @@
 int main(void){
     char *a = strdup("\nStart Running Test Suit \n-----------------\n");
     printf("%s", a);
-    //test the creation of a new process 
-    char *b = strdup("i3-dualcore");
-   // miniPCB *loc = testcreateminiProcess(3, b) ;
+    //test creating a process
+    // miniPCB *loc = testcreateminiProcess(3, b) ;
+    
     //Test the creation of the file
     //int res = testReadInputFile("input.config");
     QueueList *pcbQueue = (QueueList*)malloc(sizeof(QueueList));
@@ -18,7 +18,6 @@ int main(void){
     }
     parseInputFile(readInputFile("input.config"), &pcbQueue);
     miniPCB* pcb;
-    /* QUEUE TESTING */
     if (pcbQueue->start == NULL){
         printf("ERROR: the queue start is nulled");
     }
@@ -27,6 +26,14 @@ int main(void){
         printf("ERROR: the queue is nulled");
     }
     printQueue(pcbQueue);
+    int ret  = TRUE; 
+    while (ret != FALSE){ 
+        ret  = dispatchProcess(&pcbQueue);
+    }
+return 0;
+    /* FILEIO TESTING */
+}
+    /* QUEUE TESTING */
     /*insert(&pcbQueue->start, &pcbQueue->end, 3,2,4,3,4);
     insert(&pcbQueue->start, &pcbQueue->end, 3, 4,5,3,4);
     int ret;
@@ -43,6 +50,4 @@ int main(void){
         printf("Tests Succeeded\n\n");
     else
         printf("\nTest Failed! There Are %i Errors\n\n", index);*/
-return 0;
-    /* FILEIO TESTING */
-}
+

@@ -56,6 +56,7 @@ typedef struct {
     int frequency; //from input file 
     int ioduration; //from input file 
     int remaining_time;
+    int running;
     char *io_info; 
     char *cpu_info; //Delete me later on 
     struct miniPCB *next, *prev;
@@ -95,7 +96,7 @@ int testisReady(miniPCB);
  * @param: miniPCB process block
  * return if it is running or not 
  */
-int isRunning(miniPCB);
+int isRunning(miniPCB*);
 int testisRunning(miniPCB);
 
 /**

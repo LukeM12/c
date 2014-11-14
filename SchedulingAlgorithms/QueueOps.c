@@ -23,7 +23,7 @@ miniPCB *createminiProcess(int pid, int arrival, int cputime, int frequency, int
     if (pcb == NULL){
         error_flag[index]= ERROR_PCBCREATION;
         index++;
-        //return NULL;
+        return NULL;
     }
     pcb->pid = pid;
     pcb->arrival = arrival;
@@ -33,7 +33,6 @@ miniPCB *createminiProcess(int pid, int arrival, int cputime, int frequency, int
     pcb->next = NULL;
     return pcb;
 }
-
 /**
  * Description: Create a new process 
  * @param: miniPCB** front - the front of the queue
@@ -48,6 +47,14 @@ miniPCB *createminiProcess(int pid, int arrival, int cputime, int frequency, int
 void insert(miniPCB **front, miniPCB **rear, int pid, int arrival, int cputime, int frequency, int ioduration)
 {
    miniPCB *temp;
+   if (front == NULL){
+       printf("Error: Queue insert failed, Null front\n");
+       return;
+   }
+   if (rear == NULL){
+       printf("Error: Queue insert failed, Null rear\n");
+       return;
+   }
    temp=createminiProcess(pid, arrival, cputime, frequency, ioduration);
    if(temp==NULL) {
       printf("No Memory available Error\n");

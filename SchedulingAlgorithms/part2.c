@@ -1,17 +1,32 @@
-
 #include "part2.h"
-
+int dispatchProcess(QueueList **queuePCB){
+    int id;
+    miniPCB *top = (*queuePCB)->start;
+    if (top != NULL){
+        (*queuePCB)->start->running= TRUE;
+        printf("\nDispatching process %i for %i seconds\n", top->pid, top->ioduration);
+        sleep(top->ioduration);
+    } 
+    else {
+        return FALSE;
+    }
+    delete(&(*queuePCB)->start,&(*queuePCB)->end, &id);
+    printf("Process %i has been run\n", id);
+    return TRUE;
+}
 //boolean
 int isReady(miniPCB pcb){
     return FALSE;
 }
-int isRunning(miniPCB pcb){
+int isRunning(miniPCB *pcb){
+    if (pcb->running == TRUE){
+        return TRUE;
+    }
     return FALSE;
 }
 
 int isWaiting(miniPCB pcb){
     return FALSE;
-
 }
 
 int isTerminated(miniPCB pcb){
@@ -40,11 +55,7 @@ void parseInputFile(FILE *inFile, QueueList **queuePCB){
     
     while (bytes_read != -1 && localString[0] != '}') {
         bytes_read = getline(&localString, &len, inFile);
-        printf("We are in main lop\n");
-        //waste the dollar sign
-
         while (localString[0] != '$' && localString[0] != '}' && localString[0] != '{' ) {
-            printf("We are in sub lop\n");
             if (read == -1){
                 error_flag[index]= ERROR_FILEIO;
                 index++;
@@ -82,14 +93,10 @@ void parseInputFile(FILE *inFile, QueueList **queuePCB){
                     ioduration = atoi(token);
                 }
                 token = strtok(NULL, s);
-                printf("\n pid is =%i", pid);
                 bytes_read = getline(&localString, &len, inFile);
             }
         }
         if ( pid != -1){
-            printf("CPU time is still = %i", ioduration);
-
-            printf("\n");
             insert(&(*queuePCB)->start, &(*queuePCB)->end, pid, arrival,cpu_time, frequency, ioduration);
             pid = -1;
         }
